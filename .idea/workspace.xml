@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="1. change to resample rather than rewrite fs&#10;2. add data to replot">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/as_monkey_eeg.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/info.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiple_session_stat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/multiple_session_stat.ipynb" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2dc9tp99fNBmuikgw5fzNk2rTFM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Jupyter&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="" />
+      <created>1710296717442</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710296717442</updated>
+      <workItem from="1710296718689" duration="22449000" />
+      <workItem from="1710325548489" duration="6729000" />
+      <workItem from="1710416066441" duration="7862000" />
+      <workItem from="1711271378787" duration="328000" />
+    </task>
+    <task id="LOCAL-00001" summary="bandpower analysis of monkey 0637">
+      <option name="closed" value="true" />
+      <created>1710312422168</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710312422168</updated>
+    </task>
+    <task id="LOCAL-00002" summary="old analysis file in which crosstalk was over-high">
+      <option name="closed" value="true" />
+      <created>1710315762678</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710315762678</updated>
+    </task>
+    <task id="LOCAL-00003" summary="change freq of interest in band power analysis">
+      <option name="closed" value="true" />
+      <created>1710319538705</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710319538705</updated>
+    </task>
+    <task id="LOCAL-00004" summary="multiple session analysis in 7 monkeys">
+      <option name="closed" value="true" />
+      <created>1710330207955</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710330207955</updated>
+    </task>
+    <task id="LOCAL-00005" summary="supplement of total data duration in 2 groups">
+      <option name="closed" value="true" />
+      <created>1710332594701</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1710332594701</updated>
+    </task>
+    <task id="LOCAL-00006" summary="1. change to resample rather than rewrite fs&#10;2. add data to replot">
+      <option name="closed" value="true" />
+      <created>1710463837622</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1710463837622</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="bandpower analysis of monkey 0637" />
+    <MESSAGE value="old analysis file in which crosstalk was over-high" />
+    <MESSAGE value="change freq of interest in band power analysis" />
+    <MESSAGE value="multiple session analysis in 7 monkeys" />
+    <MESSAGE value="supplement of total data duration in 2 groups" />
+    <MESSAGE value="1. change to resample rather than rewrite fs&#10;2. add data to replot" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. change to resample rather than rewrite fs&#10;2. add data to replot" />
+  </component>
+</project>
