@@ -1,0 +1,1 @@
+data_path = r'C:\Users\HP\PycharmProjects\as_monkey_eeg\X8_data'
