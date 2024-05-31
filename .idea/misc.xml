@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="rsa32_in_monkeys" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="rsa32_in_monkeys" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="mne" project-jdk-type="Python SDK" />
 </project>

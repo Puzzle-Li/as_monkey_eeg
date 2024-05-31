@@ -1,1 +1,4 @@
-data_path = r'C:\Users\HP\PycharmProjects\as_monkey_eeg\X8_data'
+data_path = {
+    'raw': r'D:\Data\as_monkeys\raw\X8_data',
+    'tmp': r'D:\Data\as_monkeys\tmp'
+}
