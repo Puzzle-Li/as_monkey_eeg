@@ -4,17 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="find typical waves">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ersp_check.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/find_spike_events.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tmp/sort_files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/as_monkey_eeg.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/as_monkey_eeg.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="change the criterion due to error detection of biomarkers as blinks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/find_spike_events.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/find_spike_events.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/find_typical_slow_trace.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/find_typical_slow_trace.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/multiple_session_stat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/multiple_session_stat.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/sort_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/sort_files.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/x8_data_convert.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/x8_data_convert.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +29,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Puzzle-Li"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Puzzle-Li/as_monkey_eeg.git",
+    "accountId": "c4b40c7d-d951-4f0e-9f18-dfb6cc2e5862"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -98,7 +106,7 @@
       <workItem from="1715343089706" duration="832000" />
       <workItem from="1717058443462" duration="2885000" />
       <workItem from="1717066442763" duration="5317000" />
-      <workItem from="1717119049274" duration="12911000" />
+      <workItem from="1717119049274" duration="28279000" />
     </task>
     <task id="LOCAL-00001" summary="bandpower analysis of monkey 0637">
       <option name="closed" value="true" />
@@ -164,7 +172,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711284526959</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="change the criterion due to error detection of biomarkers as blinks">
+      <option name="closed" value="true" />
+      <created>1717135524659</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1717135524659</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,7 +206,8 @@
     <MESSAGE value="1. change to resample rather than rewrite fs&#10;2. add data to replot" />
     <MESSAGE value="user cfg and info.xlsx" />
     <MESSAGE value="find typical waves" />
-    <option name="LAST_COMMIT_MESSAGE" value="find typical waves" />
+    <MESSAGE value="change the criterion due to error detection of biomarkers as blinks" />
+    <option name="LAST_COMMIT_MESSAGE" value="change the criterion due to error detection of biomarkers as blinks" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/as_monkey_eeg$sort_files.coverage" NAME="sort_files Coverage Results" MODIFIED="1717066851441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmp" />
