@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="find epileptiform spikes by find_peaks">
-      <change afterPath="$PROJECT_DIR$/spike_stat.ipynb" afterDir="false" />
+    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="adjust thr and make table in find_spike_events2.ipynb">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/find_spike_events2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/find_spike_events2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multiple_session_stat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/multiple_session_stat.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spike_stat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/spike_stat.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x8_data_convert.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/x8_data_convert.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +105,7 @@
       <workItem from="1717058443462" duration="2885000" />
       <workItem from="1717066442763" duration="5317000" />
       <workItem from="1717119049274" duration="51943000" />
-      <workItem from="1717223623723" duration="7491000" />
+      <workItem from="1717223623723" duration="20657000" />
     </task>
     <task id="LOCAL-00001" summary="bandpower analysis of monkey 0637">
       <option name="closed" value="true" />
@@ -196,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717161309739</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="adjust thr and make table in find_spike_events2.ipynb">
+      <option name="closed" value="true" />
+      <created>1717231234954</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1717231234954</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,7 +232,8 @@
     <MESSAGE value="change the criterion due to error detection of biomarkers as blinks" />
     <MESSAGE value="find epileptiform spikes by find_eog_events" />
     <MESSAGE value="find epileptiform spikes by find_peaks" />
-    <option name="LAST_COMMIT_MESSAGE" value="find epileptiform spikes by find_peaks" />
+    <MESSAGE value="adjust thr and make table in find_spike_events2.ipynb" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust thr and make table in find_spike_events2.ipynb" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/as_monkey_eeg$sort_files.coverage" NAME="sort_files Coverage Results" MODIFIED="1717066851441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmp" />
