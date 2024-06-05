@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="readjust thr and make table in find_spike_events2.ipynb">
-      <change afterPath="$PROJECT_DIR$/identifying_as_by_dectecting_epileptiform_spikes.ipynb" afterDir="false" />
+    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="summary for finding epileptic onsets">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spike_stat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/spike_stat.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/identifying_as_by_dectecting_epileptiform_spikes.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/identification_of_as_by_detecting_abnormal_oscillations.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +106,7 @@
       <workItem from="1717119049274" duration="51943000" />
       <workItem from="1717223623723" duration="30523000" />
       <workItem from="1717321968419" duration="446000" />
-      <workItem from="1717322439361" duration="23818000" />
+      <workItem from="1717322439361" duration="43929000" />
     </task>
     <task id="LOCAL-00001" summary="bandpower analysis of monkey 0637">
       <option name="closed" value="true" />
@@ -213,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717244713337</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="summary for finding epileptic onsets">
+      <option name="closed" value="true" />
+      <created>1717411759620</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1717411759620</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,7 +251,8 @@
     <MESSAGE value="find epileptiform spikes by find_peaks" />
     <MESSAGE value="adjust thr and make table in find_spike_events2.ipynb" />
     <MESSAGE value="readjust thr and make table in find_spike_events2.ipynb" />
-    <option name="LAST_COMMIT_MESSAGE" value="readjust thr and make table in find_spike_events2.ipynb" />
+    <MESSAGE value="summary for finding epileptic onsets" />
+    <option name="LAST_COMMIT_MESSAGE" value="summary for finding epileptic onsets" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -258,6 +266,11 @@
           <url>file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/mne/time_frequency/psd.py</url>
           <line>201</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/yasa/detection.py</url>
+          <line>1689</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
