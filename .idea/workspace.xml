@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="summary for finding epileptic onsets">
+      <change afterPath="$PROJECT_DIR$/convert_x8_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/power.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/prep.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/identifying_as_by_dectecting_epileptiform_spikes.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/identification_of_as_by_detecting_abnormal_oscillations.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/identification_of_as_by_detecting_abnormal_oscillations.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/identification_of_as_by_detecting_abnormal_oscillations.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/sort_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/sort_files.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Jupyter Notebook" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -47,6 +52,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.convert_x8_data.executor": "Run",
+    "Python.prep.executor": "Run",
     "Python.sort_files.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -60,7 +67,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "Jupyter Settings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -106,7 +113,15 @@
       <workItem from="1717119049274" duration="51943000" />
       <workItem from="1717223623723" duration="30523000" />
       <workItem from="1717321968419" duration="446000" />
-      <workItem from="1717322439361" duration="43929000" />
+      <workItem from="1717322439361" duration="52014000" />
+      <workItem from="1717720273497" duration="13442000" />
+      <workItem from="1721183921710" duration="12000" />
+      <workItem from="1721356435280" duration="3185000" />
+      <workItem from="1721791228158" duration="3111000" />
+      <workItem from="1721876548744" duration="649000" />
+      <workItem from="1721895196187" duration="590000" />
+      <workItem from="1722414454429" duration="591000" />
+      <workItem from="1722479939991" duration="6881000" />
     </task>
     <task id="LOCAL-00001" summary="bandpower analysis of monkey 0637">
       <option name="closed" value="true" />
@@ -220,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717411759620</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="summary for finding epileptic onsets">
+      <option name="closed" value="true" />
+      <created>1717570533361</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1717570533361</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,11 +290,6 @@
           <line>201</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/yasa/detection.py</url>
-          <line>1689</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -287,6 +305,8 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/as_monkey_eeg$sort_files.coverage" NAME="sort_files Coverage Results" MODIFIED="1717066851441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmp" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$sort_files.coverage" NAME="sort_files Coverage Results" MODIFIED="1722483040458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmp" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$prep.coverage" NAME="prep Coverage Results" MODIFIED="1722488931709" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$convert_x8_data.coverage" NAME="convert_x8_data Coverage Results" MODIFIED="1722488127095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
