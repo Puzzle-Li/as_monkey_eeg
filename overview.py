@@ -7,13 +7,21 @@ import yasa
 from yasa import stft_power
 import dataset as ds
 import numpy as np
+import seaborn as sns
+from lspopt import spectrogram_lspopt
 
 mne.set_log_level('CRITICAL')
 
-plt.style.use('seaborn-v0_8-whitegrid')
-plt.rc('axes', unicode_minus=False)
+sns.set_theme(
+    context='notebook',
+    style='whitegrid',
+    palette='deep',
+    font='Arial',
+    font_scale=1,
+    color_codes=True,
+)
 
-from lspopt import spectrogram_lspopt
+plt.rc('axes', unicode_minus=False)
 
 
 def spectrogram(raw, picks=0, f_range=(.5, 30), window=30, overlap=0.5):
@@ -37,30 +45,27 @@ def spectrogram(raw, picks=0, f_range=(.5, 30), window=30, overlap=0.5):
 
     return t, f, Sxx
 
+
 path = os.path.join(ds.path['fig'], 'overview')
 
 df_sessions = pd.read_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
 animals = df_sessions['animal_id'].unique()
 
 for animal in animals:
+    # animal = '0767#'
     sessions = df_sessions.query('animal_id == @animal')['session'].unique()
     genotype = df_sessions.query('animal_id == @animal')['genotype'].iloc[0]
 
     for session in sessions:
-        plt.figure(figsize=(16, 3))
+        # session = '2024-05-28'
+        is_good_session = (df_sessions.query('animal_id == @animal and session == @session')['reserve'] == 1).all()
+        plt.figure(figsize=(28, 6))
 
         # raw data
         fname = os.path.join(ds.path['tmp'], animal, session, 'raw.edf')
         raw = mne.io.read_raw_edf(fname, preload=True, verbose=False)
         raw.filter(0.1, 40)
         raw.notch_filter(50)
-
-        # prep data
-        fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_epochs.fif')
-        epochs = mne.read_epochs(fname)
-        epoch_length = epochs.tmax + 1/epochs.info['sfreq']
-
-
 
         t = raw.times / 60
         eeg = raw.get_data(picks=0, units='uV').squeeze()
@@ -70,20 +75,26 @@ for animal in animals:
         # Loco
         plt.subplot2grid((3, 100), (0, 0), colspan=65)
         plt.plot(t, acg, color='tab:grey', linewidth=.1)
-        plt.hlines(5, t[0], t[-1], colors='tab:red')
+        plt.hlines(5, t[0], t[-1], colors='tab:green')
         plt.ylim(0.1, 30)
         plt.ylabel('Loco')
         plt.title(f'{animal} | {session} | {genotype}')
 
-        # Shadow of epoch selection
-        start_row =epoch_length * epochs.selection
-        end_row =epoch_length * (epochs.selection+1)
-        mesh_x = np.vstack([start_row, end_row]).transpose([1, 0]).reshape(-1)
-        mesh_x /= 60
-        mesh_y = np.array([0, 5])
-        mesh_c = np.vstack([np.ones_like(start_row), np.zeros_like(start_row)]).transpose([1, 0]).reshape(1, -1)
-        mesh_c = mesh_c[:, :-1]
-        plt.pcolormesh(mesh_x, mesh_y, mesh_c, cmap='Reds', alpha=.5)
+        if is_good_session:
+            # prep data
+            fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_epochs.fif')
+            epochs = mne.read_epochs(fname)
+            epoch_length = epochs.tmax + 1 / epochs.info['sfreq']
+
+            # Shadow of epoch selection
+            start_row = epoch_length * epochs.selection
+            end_row = epoch_length * (epochs.selection + 1)
+            mesh_x = np.vstack([start_row, end_row]).transpose([1, 0]).reshape(-1)
+            mesh_x /= 60
+            mesh_y = np.array([0, 30])
+            mesh_c = np.vstack([np.ones_like(start_row), np.zeros_like(start_row)]).transpose([1, 0]).reshape(1, -1)
+            mesh_c = mesh_c[:, :-1]
+            plt.pcolormesh(mesh_x, mesh_y, mesh_c, cmap='Greens', alpha=.3, zorder=-30)
 
         # Spectrogram
         t_p, f, p = spectrogram(raw)
@@ -105,15 +116,43 @@ for animal in animals:
         plt.ylabel('EEG (μV)', y=0.66)
 
         # PSD
-        plt.subplot2grid((3, 100), (0, 75), colspan=28, rowspan=3)
-        p, f = plt.psd(eeg, Fs=sf)
-        plt.yticks(ticks=range(0, 40, 5))
-        plt.ylim((0, 40))
+        plt.subplot2grid((3, 100), (0, 75), colspan=23, rowspan=3)
+        df_psd_raw = raw.compute_psd(picks=[0], fmax=30, method='welch', n_fft=int(2 * sf)).to_data_frame()
+        df_psd_raw = df_psd_raw.rename(columns={raw.ch_names[0]: 'power'})
+        df_psd_raw['power'] = 10 * np.log10(df_psd_raw['power']) + 120
+        sns.lineplot(
+            data=df_psd_raw,
+            x='freq',
+            y='power',
+            ax=plt.gca(),
+            label='Raw'
+        )
+
+        if is_good_session:
+            df_psd_prep = epochs.compute_psd(picks=[0], fmax=30, method='multitaper', bandwidth=.5).to_data_frame()
+            df_psd_prep = df_psd_prep.rename(columns={raw.ch_names[0]: 'power'})
+            df_psd_prep['power'] = 10 * np.log10(df_psd_prep['power']) + 120
+            sns.lineplot(
+                data=df_psd_prep,
+                x='freq',
+                y='power',
+                ax=plt.gca(),
+                label='Prep'
+            )
+
+            plt.title(f'Length of selected data: {(epoch_length * epochs.selection.size / 60):.2f} min')
+
+            del df_psd_prep, epochs
+        else:
+            plt.title(f'Bad session')
+
+        plt.ylim((-10, 50))
         plt.xlim((0, 30))
         plt.ylabel('PSD (dB/Hz)')
         plt.xlabel('Freq. (Hz)')
+        plt.legend()
 
         plt.savefig(os.path.join(path, f'{animal}_{session}.png'), bbox_inches='tight')
         plt.clf()
         plt.close()
-        del raw, p, eeg, acg, t
+        del raw, eeg, acg, t, df_psd_raw
