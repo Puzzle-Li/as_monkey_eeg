@@ -17,14 +17,16 @@ sns.set_theme(
     style='whitegrid',
     palette='deep',
     font='Arial',
-    font_scale=1,
+    font_scale=1.5,
     color_codes=True,
 )
 
 plt.rc('axes', unicode_minus=False)
+plt.rc('xtick', direction='out')
+plt.rc('ytick', direction='out')
 
 
-def spectrogram(raw, picks=0, f_range=(.5, 30), window=30, overlap=0.5):
+def spectrogram(raw, picks=0, f_range=(.1, 45), window=30, overlap=0.5):
     fmin = f_range[0]
     fmax = f_range[1]
 
@@ -58,13 +60,15 @@ for animal in animals:
 
     for session in sessions:
         # session = '2024-05-28'
-        is_good_session = (df_sessions.query('animal_id == @animal and session == @session')['reserve'] == 1).all()
+        # is_good_session = (df_sessions.query('animal_id == @animal and session == @session')['reserve'] == 1).all()
         plt.figure(figsize=(28, 6))
 
         # raw data
-        fname = os.path.join(ds.path['tmp'], animal, session, 'raw.edf')
-        raw = mne.io.read_raw_edf(fname, preload=True, verbose=False)
-        raw.filter(0.1, 40)
+        # fname = os.path.join(ds.path['tmp'], animal, session, 'raw.edf')
+        # raw = mne.io.read_raw_edf(fname, preload=True, verbose=False)
+        fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_raw_crop.fif')
+        raw = mne.io.read_raw_fif(fname, preload=True)
+        raw.filter(0.1, 45)
         raw.notch_filter(50)
 
         t = raw.times / 60
@@ -80,7 +84,10 @@ for animal in animals:
         plt.ylabel('Loco')
         plt.title(f'{animal} | {session} | {genotype}')
 
-        if is_good_session:
+        fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_epochs.fif')
+        epochs = mne.read_epochs(fname)
+        # if is_good_session:
+        if epochs.selection.size > 0:
             # prep data
             fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_epochs.fif')
             epochs = mne.read_epochs(fname)
@@ -106,6 +113,9 @@ for animal in animals:
         plt.xlim(t_p[[0, -1]])
         plt.ylabel('Freq. (Hz)')
         plt.xlabel('Time (min)')
+        plt.ylim(1, 40)
+        plt.yticks([1, 4, 8, 12, 30, 40])
+        plt.xticks()
         del p
 
         # EEG
@@ -117,7 +127,7 @@ for animal in animals:
 
         # PSD
         plt.subplot2grid((3, 100), (0, 75), colspan=23, rowspan=3)
-        df_psd_raw = raw.compute_psd(picks=[0], fmax=30, method='welch', n_fft=int(2 * sf)).to_data_frame()
+        df_psd_raw = raw.compute_psd(picks=[0], fmax=45, method='welch', n_fft=int(2 * sf)).to_data_frame()
         df_psd_raw = df_psd_raw.rename(columns={raw.ch_names[0]: 'power'})
         df_psd_raw['power'] = 10 * np.log10(df_psd_raw['power']) + 120
         sns.lineplot(
@@ -128,8 +138,9 @@ for animal in animals:
             label='Raw'
         )
 
-        if is_good_session:
-            df_psd_prep = epochs.compute_psd(picks=[0], fmax=30, method='multitaper', bandwidth=.5).to_data_frame()
+        # if is_good_session:
+        if epochs.selection.size > 0:
+            df_psd_prep = epochs.compute_psd(picks=[0], fmax=45, method='welch', n_fft=int(2 * sf)).to_data_frame()
             df_psd_prep = df_psd_prep.rename(columns={raw.ch_names[0]: 'power'})
             df_psd_prep['power'] = 10 * np.log10(df_psd_prep['power']) + 120
             sns.lineplot(
@@ -144,10 +155,11 @@ for animal in animals:
 
             del df_psd_prep, epochs
         else:
-            plt.title(f'Bad session')
+            plt.title(f'Bad session: left data lasting {(epoch_length * epochs.selection.size / 60):.2f} min')
 
-        plt.ylim((-10, 50))
-        plt.xlim((0, 30))
+        plt.ylim((-15, 40))
+        plt.xlim((1, 40))
+        plt.xticks([1, 4, 8, 12, 30, 40])
         plt.ylabel('PSD (dB/Hz)')
         plt.xlabel('Freq. (Hz)')
         plt.legend()

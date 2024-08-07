@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pandas as pd
@@ -40,6 +41,12 @@ def filter_epoches(epochs, seg_duration, min_duration=10):
     return epochs
 
 
+def time_to_latency(meas_date, time):
+    dt = meas_date
+    dt = dt.replace(hour=time.hour, minute=time.minute, second=time.second)
+    return (dt - meas_date).total_seconds()
+
+
 df_info = ds.load_info()
 
 # make session table
@@ -65,6 +72,8 @@ for file in files:
 df_sessions = df_sessions.reset_index(drop=True)
 pd.concat([df_sessions.head(2), df_sessions.tail(2)])
 
+df_sessions = pd.read_excel(os.path.join(ds.path['tbl'], 'sessions_sort.xlsx'))
+
 # prep annot
 path = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco')
 
@@ -83,16 +92,31 @@ for animal in animals:
         raw.set_channel_types({'Loco': 'bio'})
         raw.notch_filter(50)
 
-        epochs = mne.make_fixed_length_epochs(raw.copy().filter(0.1, 40), duration=seg_duration, preload=True, id=0)
+        crop_start = df_sessions.query('animal_id == @animal and session == @session')['crop_start'].iloc[0]
+        crop_end = df_sessions.query('animal_id == @animal and session == @session')['crop_end'].iloc[0]
+        crop_start = time_to_latency(raw.info['meas_date'], crop_start)
+        crop_end = time_to_latency(raw.info['meas_date'], crop_end)
+        if crop_start < 0:
+            crop_start = 0
+        if crop_end > raw.times[-1]:
+            crop_end = None
+
+        raw.crop(crop_start, crop_end)
+        print(f'Crop {crop_start} to {crop_end} in {animal} on {session}')
+        raw.set_meas_date(raw.info['meas_date'] + datetime.timedelta(seconds=crop_start))
+        raw.save(os.path.join(path, f'{animal}_{session}_raw_crop.fif'), overwrite=True)
+
+        epochs = mne.make_fixed_length_epochs(raw.copy().filter(0.1, 45), duration=seg_duration, preload=True, id=0)
         epochs.drop_bad(flat=dict(eeg=5e-6), reject={'bio': 5e-6, 'eeg': 1000e-6})
 
         epochs = filter_epoches(epochs, seg_duration, min_duration=10)
+        epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)
 
-        # Check session quality
-        if epochs.selection.size * seg_duration >= 15 * 60:
-            epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)
-            df_sessions.loc[df_sessions.query('animal_id == @animal and session == @session').index, 'reserve'] = 1
-        else:
-            df_sessions.loc[df_sessions.query('animal_id == @animal and session == @session').index, 'reserve'] = 0
+        # # Check session quality
+        # if epochs.selection.size * seg_duration >= 15 * 60:
+        #     epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)
+        #     df_sessions.loc[df_sessions.query('animal_id == @animal and session == @session').index, 'reserve'] = 1
+        # else:
+        #     df_sessions.loc[df_sessions.query('animal_id == @animal and session == @session').index, 'reserve'] = 0
 
-df_sessions.to_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
+# df_sessions.to_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
