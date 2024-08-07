@@ -4,7 +4,7 @@ import os.path
 
 import mne.io
 import numpy as np
-from transdata2edf import data_translate_edf_path
+from x8_convert.transdata2edf import data_translate_edf_path
 import dataset as ds
 
 mne.set_log_level('CRITICAL')
