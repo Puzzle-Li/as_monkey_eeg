@@ -22,7 +22,7 @@ sns.set_theme(
 )
 
 
-def filter_epoches(epochs, seg_duration, min_duration=10):
+def filter_epoches(epochs, seg_duration, min_duration=10, return_annot=False):
     bi_sign = np.zeros(epochs.selection.size + 1)
     bi_sign[1:-1] = (np.diff(epochs.selection) == 1).astype('int')
     si = epochs.selection[np.diff(bi_sign) == 1]
@@ -38,7 +38,16 @@ def filter_epoches(epochs, seg_duration, min_duration=10):
     epoch_id_selection = np.array(epoch_id_selection)
     epochs = epochs[epoch_id_selection]
 
-    return epochs
+    if return_annot:
+        durations = (ei - si + 1) * seg_duration
+        onsets = si[durations >= min_duration] * seg_duration
+        durations = durations[durations >= min_duration]
+        description = ["selected"] * onsets.size
+        annot = mne.Annotations(onsets, durations, description, orig_time=epochs.info["meas_date"])
+        # annot = mne.Annotations(onsets, durations, description)
+        return epochs, annot
+    else:
+        return epochs
 
 
 def time_to_latency(meas_date, time):
@@ -82,6 +91,7 @@ animals = df_sessions['animal_id'].unique()
 df_power = pd.DataFrame()
 
 for animal in animals:
+
     sessions = df_sessions.query('animal_id == @animal')['session'].unique()
     genotype = df_sessions.query('animal_id == @animal')['genotype'].iloc[0]
 
@@ -103,20 +113,24 @@ for animal in animals:
 
         raw.crop(crop_start, crop_end)
         print(f'Crop {crop_start} to {crop_end} in {animal} on {session}')
-        raw.set_meas_date(raw.info['meas_date'] + datetime.timedelta(seconds=crop_start))
+
         raw.save(os.path.join(path, f'{animal}_{session}_raw_crop.fif'), overwrite=True)
 
         epochs = mne.make_fixed_length_epochs(raw.copy().filter(0.1, 45), duration=seg_duration, preload=True, id=0)
         epochs.drop_bad(flat=dict(eeg=5e-6), reject={'bio': 5e-6, 'eeg': 1000e-6})
 
-        epochs = filter_epoches(epochs, seg_duration, min_duration=10)
+        epochs, annot = filter_epoches(epochs, seg_duration, min_duration=10, return_annot=True)
         epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)
 
-        # # Check session quality
-        # if epochs.selection.size * seg_duration >= 15 * 60:
-        #     epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)
-        #     df_sessions.loc[df_sessions.query('animal_id == @animal and session == @session').index, 'reserve'] = 1
-        # else:
-        #     df_sessions.loc[df_sessions.query('animal_id == @animal and session == @session').index, 'reserve'] = 0
+        # annot selected epoches
+        if len(annot) > 0:
+            annot.rename({'selected': 'rest'})
 
-# df_sessions.to_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
+        annot.onset += crop_start
+        raw.set_annotations(annot)
+
+        # For fixing bug when export to EDF
+        raw.set_meas_date(raw.info['meas_date'] + datetime.timedelta(seconds=crop_start))
+        raw.annotations.onset -= crop_start
+        raw.export(os.path.join(path, f'{animal}_{session}_raw_crop_annot.edf'), overwrite=True)
+
