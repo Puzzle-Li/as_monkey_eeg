@@ -1,3 +1,4 @@
+import datetime
 import os.path
 
 import matplotlib.pyplot as plt
@@ -14,7 +15,7 @@ mne.set_log_level('CRITICAL')
 
 sns.set_theme(
     context='notebook',
-    style='whitegrid',
+    style='ticks',
     palette='deep',
     font='Arial',
     font_scale=1.5,
@@ -51,23 +52,21 @@ def spectrogram(raw, picks=0, f_range=(.1, 45), window=30, overlap=0.5):
 path = os.path.join(ds.path['fig'], 'overview')
 
 df_sessions = pd.read_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
+df_psd = pd.read_csv(os.path.join(ds.path['tbl'], 'psd.csv'))
 animals = df_sessions['animal_id'].unique()
 
 for animal in animals:
     # animal = '0767#'
     sessions = df_sessions.query('animal_id == @animal')['session'].unique()
     genotype = df_sessions.query('animal_id == @animal')['genotype'].iloc[0]
+    rate = df_sessions.query('animal_id == @animal')['rate'].iloc[0]
 
     for session in sessions:
-        # session = '2024-05-28'
-        # is_good_session = (df_sessions.query('animal_id == @animal and session == @session')['reserve'] == 1).all()
         plt.figure(figsize=(28, 6))
 
         # raw data
-        # fname = os.path.join(ds.path['tmp'], animal, session, 'raw.edf')
-        # raw = mne.io.read_raw_edf(fname, preload=True, verbose=False)
-        fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_raw_crop.fif')
-        raw = mne.io.read_raw_fif(fname, preload=True)
+        fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_raw_crop_annot.edf')
+        raw = mne.io.read_raw_edf(fname, preload=True)
         raw.filter(0.1, 45)
         raw.notch_filter(50)
 
@@ -79,23 +78,19 @@ for animal in animals:
         # Loco
         plt.subplot2grid((3, 100), (0, 0), colspan=65)
         plt.plot(t, acg, color='tab:grey', linewidth=.1)
-        plt.hlines(5, t[0], t[-1], colors='tab:green')
+        plt.hlines(10, t[0], t[-1], colors='tab:green')
         plt.ylim(0.1, 30)
         plt.ylabel('Loco')
-        plt.title(f'{animal} | {session} | {genotype}')
 
-        fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_epochs.fif')
-        epochs = mne.read_epochs(fname)
-        # if is_good_session:
-        if epochs.selection.size > 0:
-            # prep data
-            fname = os.path.join(ds.path['tmp'], 'prep', 'annot_over_loco', f'{animal}_{session}_epochs.fif')
-            epochs = mne.read_epochs(fname)
-            epoch_length = epochs.tmax + 1 / epochs.info['sfreq']
+        if genotype == 'WT':
+            plt.title(f'{animal} | {session} | {genotype}')
+        else:
+            plt.title(f'{animal} | {session} | {genotype}: {rate * 100:.0f}%')
 
-            # Shadow of epoch selection
-            start_row = epoch_length * epochs.selection
-            end_row = epoch_length * (epochs.selection + 1)
+        # Shadow of epoch selection
+        if len(raw.annotations) > 0:
+            start_row = raw.annotations.onset
+            end_row = raw.annotations.onset + raw.annotations.duration
             mesh_x = np.vstack([start_row, end_row]).transpose([1, 0]).reshape(-1)
             mesh_x /= 60
             mesh_y = np.array([0, 30])
@@ -105,17 +100,32 @@ for animal in animals:
 
         # Spectrogram
         t_p, f, p = spectrogram(raw)
-        plt.xticks(ticks=[])
-        plt.xlim(t_p[[0, -1]])
 
+        # Time ticks
+        tticks = plt.xticks()[0]
+        tticks += t_p[0]
+        tticks = tticks[(tticks >= t_p[0]) & (tticks <= t_p[-1])]
+        tticks[-1] = t_p[-1]
+        tticklabels = [f'{(raw.info["meas_date"] + datetime.timedelta(minutes=m)).strftime("%H:%M")}\n[{m:.0f}]' for m
+                       in tticks]
+        tticklabels[-1] = tticklabels[-1].replace(']', ' min]')
+        plt.xticks(ticks=tticks, labels=[])
+        plt.xlim(t_p[[0, -1]])
+        plt.gca().minorticks_on()
+        plt.gca().tick_params(axis="y", which="minor", direction="out", length=0)
+
+        # Spectrogram plot
         plt.subplot2grid((3, 100), (1, 0), colspan=65, rowspan=2)
         plt.pcolormesh(t_p, f, p, shading='gouraud', cmap='jet', vmin=-15, vmax=30)
-        plt.xlim(t_p[[0, -1]])
         plt.ylabel('Freq. (Hz)')
-        plt.xlabel('Time (min)')
+        # plt.xlabel('Time (min)', loc='right', labelpad=0)
         plt.ylim(1, 40)
         plt.yticks([1, 4, 8, 12, 30, 40])
-        plt.xticks()
+
+        plt.gca().minorticks_on()
+        plt.gca().tick_params(axis="y", which="minor", direction="out", length=0)
+        plt.xticks(ticks=tticks, labels=tticklabels)
+        plt.xlim(t_p[[0, -1]])
         del p
 
         # EEG
@@ -124,6 +134,7 @@ for animal in animals:
         plt.ylim(-800, 400)
         plt.yticks(ticks=range(-300, 301, 200))
         plt.ylabel('EEG (μV)', y=0.66)
+        plt.grid()
 
         # PSD
         plt.subplot2grid((3, 100), (0, 75), colspan=23, rowspan=3)
@@ -137,25 +148,28 @@ for animal in animals:
             ax=plt.gca(),
             label='Raw'
         )
+        plt.grid()
 
-        # if is_good_session:
-        if epochs.selection.size > 0:
-            df_psd_prep = epochs.compute_psd(picks=[0], fmax=45, method='welch', n_fft=int(2 * sf)).to_data_frame()
-            df_psd_prep = df_psd_prep.rename(columns={raw.ch_names[0]: 'power'})
-            df_psd_prep['power'] = 10 * np.log10(df_psd_prep['power']) + 120
-            sns.lineplot(
-                data=df_psd_prep,
-                x='freq',
-                y='power',
-                ax=plt.gca(),
-                label='Prep'
-            )
+        session_in_df_psd = f'{animal} @{session}'
+        sns.lineplot(
+            data=df_psd.query("session == @session_in_df_psd"),
+            x='freq',
+            y='power_db',
+            ax=plt.gca(),
+            label='Prep'
+        )
 
-            plt.title(f'Length of selected data: {(epoch_length * epochs.selection.size / 60):.2f} min')
+        if raw.annotations.duration.sum() > 15 * 60:
+            plt.title(f'Length of selected data: '
+                      f'{(raw.annotations.duration.sum() / 60):.2f} min '
+                      f'({raw.annotations.duration.sum() / raw.times[-1] * 100 :.0f}%)')
 
-            del df_psd_prep, epochs
+        elif raw.annotations.duration.sum() > 0:
+            plt.title(f'Bad session: '
+                      f'left data lasting {(raw.annotations.duration.sum() / 60):.2f} min'
+                      f'({raw.annotations.duration.sum() / raw.times[-1] * 100 :.0f}%)')
         else:
-            plt.title(f'Bad session: left data lasting {(epoch_length * epochs.selection.size / 60):.2f} min')
+            plt.title(f'Bad session: totally bad data')
 
         plt.ylim((-15, 40))
         plt.xlim((1, 40))

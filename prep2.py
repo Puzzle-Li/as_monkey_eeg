@@ -64,6 +64,7 @@ df_sessions = pd.DataFrame()
 for file in files:
     animal, session = np.array(file.split('\\'))[[-3, -2]]
     group = df_info.loc[animal, 'Genotype']
+    rate = df_info.loc[animal, 'Rate']
 
     fname = os.path.join(ds.path['tmp'], animal, session, 'raw.edf')
     raw = mne.io.read_raw_edf(fname)
@@ -73,6 +74,7 @@ for file in files:
     df_sessions_tmp = pd.DataFrame({
         'animal_id': animal,
         'genotype': group,
+        'rate': rate,
         'session': session,
         'session_length': session_length
     }, index=[0])
@@ -80,6 +82,7 @@ for file in files:
 
 df_sessions = df_sessions.reset_index(drop=True)
 pd.concat([df_sessions.head(2), df_sessions.tail(2)])
+df_sessions.to_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
 
 df_sessions = pd.read_excel(os.path.join(ds.path['tbl'], 'sessions_sort.xlsx'))
 
@@ -117,7 +120,7 @@ for animal in animals:
         raw.save(os.path.join(path, f'{animal}_{session}_raw_crop.fif'), overwrite=True)
 
         epochs = mne.make_fixed_length_epochs(raw.copy().filter(0.1, 45), duration=seg_duration, preload=True, id=0)
-        epochs.drop_bad(flat=dict(eeg=5e-6), reject={'bio': 5e-6, 'eeg': 1000e-6})
+        epochs.drop_bad(flat=dict(eeg=5e-6), reject={'bio': 10e-6, 'eeg': 1000e-6})
 
         epochs, annot = filter_epoches(epochs, seg_duration, min_duration=10, return_annot=True)
         epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)
