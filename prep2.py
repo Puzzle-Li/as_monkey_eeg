@@ -44,7 +44,6 @@ def filter_epoches(epochs, seg_duration, min_duration=10, return_annot=False):
         durations = durations[durations >= min_duration]
         description = ["selected"] * onsets.size
         annot = mne.Annotations(onsets, durations, description, orig_time=epochs.info["meas_date"])
-        # annot = mne.Annotations(onsets, durations, description)
         return epochs, annot
     else:
         return epochs
@@ -81,7 +80,6 @@ for file in files:
     df_sessions = pd.concat([df_sessions, df_sessions_tmp])
 
 df_sessions = df_sessions.reset_index(drop=True)
-pd.concat([df_sessions.head(2), df_sessions.tail(2)])
 df_sessions.to_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
 
 df_sessions = pd.read_excel(os.path.join(ds.path['tbl'], 'sessions_sort.xlsx'))
@@ -94,7 +92,6 @@ animals = df_sessions['animal_id'].unique()
 df_power = pd.DataFrame()
 
 for animal in animals:
-
     sessions = df_sessions.query('animal_id == @animal')['session'].unique()
     genotype = df_sessions.query('animal_id == @animal')['genotype'].iloc[0]
 
@@ -119,8 +116,8 @@ for animal in animals:
 
         raw.save(os.path.join(path, f'{animal}_{session}_raw_crop.fif'), overwrite=True)
 
-        epochs = mne.make_fixed_length_epochs(raw.copy().filter(0.1, 45), duration=seg_duration, preload=True, id=0)
-        epochs.drop_bad(flat=dict(eeg=5e-6), reject={'bio': 10e-6, 'eeg': 1000e-6})
+        epochs = mne.make_fixed_length_epochs(raw.copy().filter(0.1, 45, picks=[0]), duration=seg_duration, preload=True, id=0)
+        epochs.drop_bad(flat=dict(eeg=5e-6), reject={'bio': 10e-6, 'eeg': 2000e-6})
 
         epochs, annot = filter_epoches(epochs, seg_duration, min_duration=10, return_annot=True)
         epochs.save(os.path.join(path, f'{animal}_{session}_epochs.fif'), overwrite=True)

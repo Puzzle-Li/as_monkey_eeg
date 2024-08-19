@@ -4,14 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="summary for finding epileptic onsets">
-      <change afterPath="$PROJECT_DIR$/convert_x8_data.py" afterDir="false" />
+    <list default="true" id="508fa2a6-bad9-457c-bf41-fca8bf247b12" name="Changes" comment="change threshold of movement to 10 and improve overview">
+      <change afterPath="$PROJECT_DIR$/overreview.ipynb" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/power.ipynb" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/prep.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/psd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/find_spike_events.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/find_spike_events.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/identification_of_as_by_detecting_abnormal_oscillations.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/identification_of_as_by_detecting_abnormal_oscillations.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp/sort_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/sort_files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overview.py" beforeDir="false" afterPath="$PROJECT_DIR$/overview.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/power4.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/power4.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prep2.py" beforeDir="false" afterPath="$PROJECT_DIR$/prep2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spike_stat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/spike_stat.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x8_data_convert.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/x8_convert/x8_data_convert.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,15 +59,21 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.convert_x8_data.executor": "Run",
+    "Python.overreview.executor": "Run",
+    "Python.overview.executor": "Run",
     "Python.prep.executor": "Run",
+    "Python.prep2.executor": "Debug",
+    "Python.psd.executor": "Run",
+    "Python.rename_videos.executor": "Run",
     "Python.sort_files.executor": "Run",
+    "Python.transdata2edf.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "database.data.extractors.current.export.id": "Excel (xlsx)",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/60978/Desktop",
+    "last_opened_file_path": "D:/Codes/PycharmProjects/AR4_DataReaderPy",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,6 +89,7 @@
       <recent name="C:\Users\HP\PycharmProjects\as_monkey_eeg" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Codes\PycharmProjects\as_monkey_eeg\x8_convert" />
       <recent name="D:\Codes\PycharmProjects\as_monkey_eeg" />
     </key>
   </component>
@@ -121,7 +134,9 @@
       <workItem from="1721876548744" duration="649000" />
       <workItem from="1721895196187" duration="590000" />
       <workItem from="1722414454429" duration="591000" />
-      <workItem from="1722479939991" duration="6881000" />
+      <workItem from="1722479939991" duration="43960000" />
+      <workItem from="1722669192447" duration="15689000" />
+      <workItem from="1722828032271" duration="86600000" />
     </task>
     <task id="LOCAL-00001" summary="bandpower analysis of monkey 0637">
       <option name="closed" value="true" />
@@ -243,7 +258,71 @@
       <option name="project" value="LOCAL" />
       <updated>1717570533361</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="init dataset for analysis on 2024-08-01">
+      <option name="closed" value="true" />
+      <created>1722489051044</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1722489051044</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Check ACG">
+      <option name="closed" value="true" />
+      <created>1722682148096</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1722682148096</updated>
+    </task>
+    <task id="LOCAL-00018" summary="overview.py">
+      <option name="closed" value="true" />
+      <created>1722687611254</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1722687611254</updated>
+    </task>
+    <task id="LOCAL-00019" summary="prep and overview">
+      <option name="closed" value="true" />
+      <created>1722845320843</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1722845320843</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix bug due to old version x8 reader">
+      <option name="closed" value="true" />
+      <created>1723014067483</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1723014067483</updated>
+    </task>
+    <task id="LOCAL-00021" summary="recheck acg after fixing bug due to old version x8 reader">
+      <option name="closed" value="true" />
+      <created>1723015898315</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1723015898315</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix bug of cropped annots when export edf">
+      <option name="closed" value="true" />
+      <created>1723109118294</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1723109118294</updated>
+    </task>
+    <task id="LOCAL-00023" summary="change threshold of movement to 10 and improve overview">
+      <option name="closed" value="true" />
+      <created>1723189811961</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1723189811961</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +354,15 @@
     <MESSAGE value="adjust thr and make table in find_spike_events2.ipynb" />
     <MESSAGE value="readjust thr and make table in find_spike_events2.ipynb" />
     <MESSAGE value="summary for finding epileptic onsets" />
-    <option name="LAST_COMMIT_MESSAGE" value="summary for finding epileptic onsets" />
+    <MESSAGE value="init dataset for analysis on 2024-08-01" />
+    <MESSAGE value="Check ACG" />
+    <MESSAGE value="overview.py" />
+    <MESSAGE value="prep and overview" />
+    <MESSAGE value="fix bug due to old version x8 reader" />
+    <MESSAGE value="recheck acg after fixing bug due to old version x8 reader" />
+    <MESSAGE value="fix bug of cropped annots when export edf" />
+    <MESSAGE value="change threshold of movement to 10 and improve overview" />
+    <option name="LAST_COMMIT_MESSAGE" value="change threshold of movement to 10 and improve overview" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -286,27 +373,38 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/mne/time_frequency/psd.py</url>
-          <line>201</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/prep2.py</url>
+          <line>84</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/overview.py</url>
+          <line>221</line>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
-      <inline-watch fileUrl="file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/mne/time_frequency/psd.py" line="200">
-        <watch expression="n_per_seg" />
-      </inline-watch>
       <inline-watch fileUrl="file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/mne/time_frequency/psd.py" line="200">
         <watch expression="n_fft" />
       </inline-watch>
       <inline-watch fileUrl="file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/mne/time_frequency/psd.py" line="200">
         <watch expression="n_overlap" />
       </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/../../../Softwares/anaconda3/envs/mne/Lib/site-packages/mne/time_frequency/psd.py" line="200">
+        <watch expression="n_per_seg" />
+      </inline-watch>
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/as_monkey_eeg$sort_files.coverage" NAME="sort_files Coverage Results" MODIFIED="1722483040458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmp" />
-    <SUITE FILE_PATH="coverage/as_monkey_eeg$prep.coverage" NAME="prep Coverage Results" MODIFIED="1722488931709" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/as_monkey_eeg$convert_x8_data.coverage" NAME="convert_x8_data Coverage Results" MODIFIED="1722488127095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$overview.coverage" NAME="overview Coverage Results" MODIFIED="1723198976082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$prep2.coverage" NAME="prep2 Coverage Results" MODIFIED="1723194958535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$transdata2edf.coverage" NAME="transdata2edf Coverage Results" MODIFIED="1723015511501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/x8_convert" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$prep.coverage" NAME="prep Coverage Results" MODIFIED="1722514549877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$overreview.coverage" NAME="overreview Coverage Results" MODIFIED="1722839857567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$rename_videos.coverage" NAME="rename_videos Coverage Results" MODIFIED="1723098294125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$convert_x8_data.coverage" NAME="convert_x8_data Coverage Results" MODIFIED="1723025245669" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/x8_convert" />
+    <SUITE FILE_PATH="coverage/as_monkey_eeg$psd.coverage" NAME="psd Coverage Results" MODIFIED="1723196134370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -53,6 +53,7 @@ path = os.path.join(ds.path['fig'], 'overview')
 
 df_sessions = pd.read_excel(os.path.join(ds.path['tbl'], 'sessions.xlsx'))
 df_psd = pd.read_csv(os.path.join(ds.path['tbl'], 'psd.csv'))
+df_psd['power_db'] = 10 * np.log10(df_psd['power']) + 120
 animals = df_sessions['animal_id'].unique()
 
 for animal in animals:
@@ -62,6 +63,8 @@ for animal in animals:
     rate = df_sessions.query('animal_id == @animal')['rate'].iloc[0]
 
     for session in sessions:
+        session_id = df_sessions.query('animal_id == @animal and session == @session').index[0]
+
         plt.figure(figsize=(28, 6))
 
         # raw data
@@ -80,7 +83,7 @@ for animal in animals:
         plt.plot(t, acg, color='tab:grey', linewidth=.1)
         plt.hlines(10, t[0], t[-1], colors='tab:green')
         plt.ylim(0.1, 30)
-        plt.ylabel('Loco')
+        plt.ylabel('Movement')
 
         if genotype == 'WT':
             plt.title(f'{animal} | {session} | {genotype}')
@@ -118,7 +121,6 @@ for animal in animals:
         plt.subplot2grid((3, 100), (1, 0), colspan=65, rowspan=2)
         plt.pcolormesh(t_p, f, p, shading='gouraud', cmap='jet', vmin=-15, vmax=30)
         plt.ylabel('Freq. (Hz)')
-        # plt.xlabel('Time (min)', loc='right', labelpad=0)
         plt.ylim(1, 40)
         plt.yticks([1, 4, 8, 12, 30, 40])
 
@@ -137,6 +139,7 @@ for animal in animals:
         plt.grid()
 
         # PSD
+        # Raw
         plt.subplot2grid((3, 100), (0, 75), colspan=23, rowspan=3)
         df_psd_raw = raw.compute_psd(picks=[0], fmax=45, method='welch', n_fft=int(2 * sf)).to_data_frame()
         df_psd_raw = df_psd_raw.rename(columns={raw.ch_names[0]: 'power'})
@@ -146,27 +149,64 @@ for animal in animals:
             x='freq',
             y='power',
             ax=plt.gca(),
-            label='Raw'
+            label='Raw',
+            linestyle='--',
+            color='tab:grey'
         )
         plt.grid()
 
-        session_in_df_psd = f'{animal} @{session}'
+        # Crop
         sns.lineplot(
-            data=df_psd.query("session == @session_in_df_psd"),
+            data=df_psd.query("session_id == @session_id"),
             x='freq',
             y='power_db',
             ax=plt.gca(),
-            label='Prep'
+            label='Crop',
+            color='tab:green',
+            zorder=4
+        )
+
+        # Animal
+        sns.lineplot(
+            data=df_psd.query("animal == @animal").groupby(['session', 'freq']).agg({'power_db': 'mean'}),
+            x='freq',
+            y='power_db',
+            ax=plt.gca(),
+            label=animal,
+            color='tab:orange',
+            zorder=3
+        )
+
+        # Mutant
+        sns.lineplot(
+            data=df_psd.query("genotype == 'Mutant'").groupby(['animal', 'freq']).agg({'power_db': 'mean'}),
+            x='freq',
+            y='power_db',
+            ax=plt.gca(),
+            label='Mutant',
+            color='tab:red',
+            zorder=2
+        )
+
+        # WT
+        sns.lineplot(
+            data=df_psd.query("genotype == 'WT'").groupby(['animal', 'freq']).agg({'power_db': 'mean'}),
+            x='freq',
+            y='power_db',
+            ax=plt.gca(),
+            label='WT',
+            color='black',
+            zorder=1
         )
 
         if raw.annotations.duration.sum() > 15 * 60:
             plt.title(f'Length of selected data: '
-                      f'{(raw.annotations.duration.sum() / 60):.2f} min '
-                      f'({raw.annotations.duration.sum() / raw.times[-1] * 100 :.0f}%)')
+                      f'{(raw.annotations.duration.sum() / 60):.0f} min '
+                      f'({raw.annotations.duration.sum() / raw.times[-1] * 100 :.1f}%)')
 
         elif raw.annotations.duration.sum() > 0:
             plt.title(f'Bad session: '
-                      f'left data lasting {(raw.annotations.duration.sum() / 60):.2f} min'
+                      f'left data lasting {(raw.annotations.duration.sum() / 60):.1f} min'
                       f'({raw.annotations.duration.sum() / raw.times[-1] * 100 :.0f}%)')
         else:
             plt.title(f'Bad session: totally bad data')

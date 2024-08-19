@@ -2,7 +2,7 @@ import os.path
 
 import pandas as pd
 
-path = {'root': r'D:\Data\as_monkeys'}
+path = {'root': r'E:\Projects\as_monkeys'}
 path['free_eeg'] = os.path.join(path['root'], 'free_eeg')
 path['raw'] = os.path.join(path['free_eeg'], 'raw')
 path['tmp'] = os.path.join(path['free_eeg'], 'tmp')
